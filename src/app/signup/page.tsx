@@ -40,25 +40,27 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-black">
+          Sign Up
+        </h2>
         <input
           type="text"
           placeholder="Name"
-          className="w-full border p-2 mb-4 rounded"
+          className="text-black w-full border p-2 mb-4 rounded"
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
         <input
           type="email"
           placeholder="Email"
-          className="w-full border p-2 mb-4 rounded"
+          className="text-black w-full border p-2 mb-4 rounded"
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
         <input
           type="password"
           placeholder="Password"
-          className="w-full border p-2 mb-4 rounded"
+          className="text-black w-full border p-2 mb-4 rounded"
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
@@ -69,6 +71,13 @@ export default function SignupPage() {
         >
           Sign Up
         </button>
+        <p className="mt-4 text-center text-black">
+          Already have an account?
+          <a href="/login" className="text-blue-500 hover:underline">
+            {" "}
+            Log in
+          </a>
+        </p>
       </div>
     </div>
   );
