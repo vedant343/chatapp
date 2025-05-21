@@ -55,7 +55,7 @@ export default function ChatsPage() {
     };
   }, [hasMounted, chatId]);
 
-  const fetchMessages = async (chatId) => {
+  const fetchMessages = async (chatId: string) => {
     const { data } = await supabase
       .from("messages")
       .select("*")
