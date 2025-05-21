@@ -130,44 +130,45 @@ export default function ChatsPage() {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="w-1/4 bg-gray-100 border-r p-4">
-        <h2 className="text-xl font-bold mb-4 text-black">
-          Chats : {user?.name}
+      <div className="w-1/4 bg-white border-r p-4">
+        <h2 className="text-xl font-bold mb-4 text-gray-800">
+          Chats: {user?.name}
         </h2>
         <ul className="space-y-2">
           {users.map((u) => (
             <li
               key={u.id}
               onClick={() => openChatWithUser(u.id)}
-              className="text-black cursor-pointer p-2 bg-white hover:bg-gray-200 rounded"
+              className="text-gray-800 cursor-pointer p-2 bg-gray-50 hover:bg-green-100 rounded-lg shadow-sm"
             >
-              {u.name} : {u.email}
+              <div className="font-medium">{u.name}</div>
+              <div className="text-sm text-gray-500">{u.email}</div>
             </li>
           ))}
         </ul>
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col">
-        <div className="p-4 border-b text-black bg-white font-semibold">
+      <div className="flex-1 flex flex-col bg-[#f0f2f5]">
+        <div className="p-4 border-b bg-white font-semibold text-gray-800 shadow-sm">
           {selectedUser ? selectedUser.name : "Select a user to chat"}
         </div>
 
-        <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
+        <div className="flex-1 p-4 overflow-y-auto bg-chat-pattern">
           {chatId ? (
             <div className="space-y-2">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`${
-                    msg.sender_id === user?.id ? "text-right" : "text-left"
+                  className={`flex ${
+                    msg.sender_id === user?.id ? "justify-end" : "justify-start"
                   }`}
                 >
                   <div
-                    className={`inline-block px-3 py-2 rounded-lg ${
+                    className={`px-4 py-2 max-w-[65%] rounded-xl text-sm ${
                       msg.sender_id === user?.id
-                        ? "bg-green-200"
-                        : "bg-white border"
+                        ? "bg-[#d9fdd3] text-black"
+                        : "bg-white text-gray-800 border"
                     }`}
                   >
                     {msg.content}
@@ -186,7 +187,7 @@ export default function ChatsPage() {
           <div className="p-4 border-t bg-white flex items-center gap-2">
             <input
               type="text"
-              className="flex-1 border px-3 py-2 rounded"
+              className="flex-1 text-black border border-gray-300 px-3 py-2 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
               placeholder="Type your message..."
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
@@ -194,7 +195,7 @@ export default function ChatsPage() {
             />
             <button
               onClick={handleSendMessage}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="bg-green-500 px-4 py-2 rounded-full hover:bg-green-600"
             >
               Send
             </button>
