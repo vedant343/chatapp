@@ -3,6 +3,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabase";
 
+type Message = {
+  id: string; // or number, depending on your data structure
+  content: string;
+  sender_id: string; // or number, depending on your data structure
+  // Add other fields as necessary
+};
+
 export default function ChatsPage() {
   const router = useRouter();
   const [hasMounted, setHasMounted] = useState(false);
@@ -10,7 +17,7 @@ export default function ChatsPage() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [chatId, setChatId] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [messageText, setMessageText] = useState("");
 
   useEffect(() => {
