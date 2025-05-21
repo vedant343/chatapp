@@ -65,7 +65,7 @@ export default function ChatsPage() {
     if (data) setMessages(data);
   };
 
-  const openChatWithUser = async (otherUserId) => {
+  const openChatWithUser = async (otherUserId: string) => {
     const { data: myChats } = await supabase
       .from("chat_participants")
       .select("chat_id")
