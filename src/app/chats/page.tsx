@@ -154,7 +154,7 @@ export default function ChatsPage() {
         </div>
 
         <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
-          {/* {chatId ? (
+          {chatId ? (
             <div className="space-y-2">
               {messages.map((msg) => (
                 <div
@@ -179,7 +179,7 @@ export default function ChatsPage() {
             <div className="text-center text-gray-500 mt-20">
               No chat selected
             </div>
-          )} */}
+          )}
         </div>
 
         {chatId && (
