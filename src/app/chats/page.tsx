@@ -18,8 +18,11 @@ export default function ChatsPage() {
   const [messageText, setMessageText] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => setHasMounted(true), []);
+  const [creatingGroup, setCreatingGroup] = useState(false);
+  const [groupName, setGroupName] = useState("");
+  const [groupMembers, setGroupMembers] = useState<string[]>([]); // names
 
+  useEffect(() => setHasMounted(true), []);
   useEffect(() => {
     if (!hasMounted) return;
     const storedUser = localStorage.getItem("user");
@@ -36,7 +39,6 @@ export default function ChatsPage() {
     if (!hasMounted || !chatId) return;
 
     fetchMessages(chatId);
-
     const channel = supabase
       .channel(`chat:${chatId}`)
       .on(
@@ -47,24 +49,19 @@ export default function ChatsPage() {
           table: "messages",
           filter: `chat_id=eq.${chatId}`,
         },
-        (payload) => {
-          setMessages((prev) => [...prev, payload.new]);
-        }
+        (payload) => setMessages((prev) => [...prev, payload.new])
       )
       .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    return () => supabase.removeChannel(channel);
   }, [hasMounted, chatId]);
 
   const fetchUsers = async (userId) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("users")
       .select("id, name, email")
       .neq("id", userId);
-
-    if (!error) setUsers(data);
+    if (data) setUsers(data);
   };
 
   const fetchMessages = async (chatId) => {
@@ -84,7 +81,6 @@ export default function ChatsPage() {
       .eq("user_id", user?.id);
 
     const myChatIds = myChats?.map((c) => c.chat_id);
-
     const { data: shared } = await supabase
       .from("chat_participants")
       .select("chat_id")
@@ -115,7 +111,6 @@ export default function ChatsPage() {
 
   const handleSendMessage = async () => {
     if (!messageText.trim()) return;
-
     await supabase.from("messages").insert([
       {
         chat_id: chatId,
@@ -123,8 +118,36 @@ export default function ChatsPage() {
         content: messageText.trim(),
       },
     ]);
-
     setMessageText("");
+  };
+
+  // 🆕 Handle group creation
+  const handleCreateGroup = async () => {
+    if (!groupName.trim() || groupMembers.length === 0) return;
+
+    const memberIds = users
+      .filter((u) => groupMembers.includes(u.name))
+      .map((u) => u.id);
+
+    const { data: newChat } = await supabase
+      .from("chats")
+      .insert([{ is_group: true, name: groupName }])
+      .select()
+      .single();
+
+    await supabase
+      .from("chat_participants")
+      .insert([
+        { chat_id: newChat.id, user_id: user?.id },
+        ...memberIds.map((id) => ({ chat_id: newChat.id, user_id: id })),
+      ]);
+
+    setChatId(newChat.id);
+    setSelectedUser({ id: "group", name: groupName });
+    setMessages([]);
+    setCreatingGroup(false);
+    setGroupName("");
+    setGroupMembers([]);
   };
 
   if (!hasMounted) return null;
@@ -134,7 +157,57 @@ export default function ChatsPage() {
       {/* Sidebar */}
       <div className="w-1/4 bg-white border-r border-gray-200">
         <div className="p-4 border-b border-gray-200">
-          <h2 className="text-2xl font-semibold text-[#075e54] mb-4">Chats</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-semibold text-[#075e54]">Chats</h2>
+            {/* 🆕 Group Creation Button */}
+            <button
+              onClick={() => setCreatingGroup(!creatingGroup)}
+              className="text-xs text-[#075e54] font-semibold underline"
+            >
+              {creatingGroup ? "Cancel" : "Create Group"}
+            </button>
+          </div>
+
+          {/* 🆕 Group Form */}
+          {creatingGroup && (
+            <div className="space-y-2 mb-3">
+              <input
+                className="w-full border rounded px-3 py-1 text-sm"
+                placeholder="Group Name"
+                value={groupName}
+                onChange={(e) => setGroupName(e.target.value)}
+              />
+              <div className="space-y-1">
+                {users.map((u) => (
+                  <label key={u.id} className="block text-sm">
+                    <input
+                      type="checkbox"
+                      checked={groupMembers.includes(u.name)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setGroupMembers([...groupMembers, u.name]);
+                        } else {
+                          setGroupMembers(
+                            groupMembers.filter((n) => n !== u.name)
+                          );
+                        }
+                      }}
+                      className="mr-2"
+                    />
+                    {u.name}
+                  </label>
+                ))}
+              </div>
+              <button
+                onClick={handleCreateGroup}
+                className="w-full bg-[#25d366] text-white py-1 rounded hover:bg-[#1ebe5d]"
+              >
+                Create
+              </button>
+            </div>
+          )}
+
+          {/* Search Input */}
           <div className="flex items-center bg-gray-100 rounded-full px-3 py-2">
             <IoSearchCircle className="w-6 h-6 text-gray-500" />
             <input
@@ -145,6 +218,7 @@ export default function ChatsPage() {
             />
           </div>
         </div>
+
         <ul className="overflow-y-auto p-2 space-y-2">
           {users
             .filter((u) =>
@@ -161,6 +235,7 @@ export default function ChatsPage() {
               </li>
             ))}
         </ul>
+
         <div className="p-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
           <div>
             <div className="text-sm font-semibold text-gray-800">
