@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabase";
@@ -28,7 +27,7 @@ export default function ChatsPage() {
       setUser(parsed);
       fetchUsers(parsed.id);
     }
-  }, [hasMounted]);
+  }, [hasMounted, router]);
 
   useEffect(() => {
     if (!hasMounted || !chatId) return;

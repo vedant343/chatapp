@@ -37,6 +37,14 @@ export default function SignupPage() {
     }
   };
 
+  const fetchData = async () => {
+    const { data, error } = await someApiCall(); // Assuming this is where 'data' is assigned
+    // Remove 'data' if it's not used anywhere
+    if (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
