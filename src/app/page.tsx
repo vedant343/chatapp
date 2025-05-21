@@ -1,20 +1,20 @@
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold mb-6">
-        Welcome to the Chat Application
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#ECE5DD]">
+      <h1 className="text-5xl font-bold mb-6 text-[#075E54]">
+        Welcome to ChatAPP
       </h1>
-      <p className="text-lg mb-4">
-        Connect with your friends and start chatting!
+      <p className="text-xl mb-6 text-[#128C7E]">
+        Connect with your friends and start chatting instantly!
       </p>
       <div className="flex space-x-4">
         <a href="/login">
-          <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+          <button className="bg-[#075E54] text-white py-2 px-6 rounded-full hover:bg-[#064C44] transition duration-300">
             Log In
           </button>
         </a>
         <a href="/signup">
-          <button className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+          <button className="bg-[#25D366] text-white py-2 px-6 rounded-full hover:bg-[#1DA851] transition duration-300">
             Sign Up
           </button>
         </a>

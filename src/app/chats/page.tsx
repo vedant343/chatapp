@@ -2,13 +2,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabase";
-
-type Message = {
-  id: string; // or number, depending on your data structure
-  content: string;
-  sender_id: string; // or number, depending on your data structure
-  // Add other fields as necessary
-};
+import { BiLogOut, BiSearchAlt2, BiVideoRecording } from "react-icons/bi";
+import { FaUserCircle } from "react-icons/fa";
+import { IoSearchCircle } from "react-icons/io5";
+import { PiPhoneCall } from "react-icons/pi";
 
 export default function ChatsPage() {
   const router = useRouter();
@@ -17,8 +14,9 @@ export default function ChatsPage() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [chatId, setChatId] = useState(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setHasMounted(true);
@@ -26,7 +24,14 @@ export default function ChatsPage() {
 
   useEffect(() => {
     if (!hasMounted) return;
-    if (!localStorage.getItem("user")) router.push("/login");
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      router.push("/login");
+    } else {
+      const parsed = JSON.parse(storedUser);
+      setUser(parsed);
+      fetchUsers(parsed.id);
+    }
   }, [hasMounted, router]);
 
   useEffect(() => {
@@ -45,7 +50,7 @@ export default function ChatsPage() {
           filter: `chat_id=eq.${chatId}`,
         },
         (payload) => {
-          setMessages((prev) => [...prev, payload.new as Message]); // Cast payload.new to Message
+          setMessages((prev) => [...prev, payload.new]);
         }
       )
       .subscribe();
@@ -55,7 +60,16 @@ export default function ChatsPage() {
     };
   }, [hasMounted, chatId]);
 
-  const fetchMessages = async (chatId: string) => {
+  const fetchUsers = async (userId) => {
+    const { data, error } = await supabase
+      .from("users")
+      .select("id, name, email")
+      .neq("id", userId);
+
+    if (!error) setUsers(data);
+  };
+
+  const fetchMessages = async (chatId) => {
     const { data } = await supabase
       .from("messages")
       .select("*")
@@ -65,7 +79,7 @@ export default function ChatsPage() {
     if (data) setMessages(data);
   };
 
-  const openChatWithUser = async (otherUserId: string) => {
+  const openChatWithUser = async (otherUserId) => {
     const { data: myChats } = await supabase
       .from("chat_participants")
       .select("chat_id")
@@ -120,28 +134,76 @@ export default function ChatsPage() {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="w-1/4 bg-white border-r p-4">
-        <h2 className="text-xl font-bold mb-4 text-gray-800">
-          Chats: {user?.name}
-        </h2>
-        <ul className="space-y-2">
-          {users.map((u) => (
-            <li
-              key={u.id}
-              onClick={() => openChatWithUser(u.id)}
-              className="text-gray-800 cursor-pointer p-2 bg-gray-50 hover:bg-green-100 rounded-lg shadow-sm"
-            >
-              <div className="font-medium">{u.name}</div>
-              <div className="text-sm text-gray-500">{u.email}</div>
-            </li>
-          ))}
+      <div className="w-1/4 bg-white">
+        <div className="p-4">
+          <h2 className="text-2xl mb-2 text-gray-800">Chats</h2>
+          <div className="flex items-center border border-gray-300 rounded-full p-2">
+            <IoSearchCircle className="w-10 h-10" />
+            <input
+              type="text"
+              placeholder="Search users..."
+              className="flex-1 ml-2 p-2 text-gray-800 focus:outline-none"
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <ul className="border-">
+          {users
+            .filter((u) =>
+              u.name.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map((u) => (
+              <div className="gap-2" key={u.id}>
+                <li
+                  onClick={() => openChatWithUser(u.id)}
+                  className="text-gray-800 flex cursor-pointer px-2 py-3 bg-gray-50 hover:bg-green-100 rounded-lg"
+                >
+                  <div>
+                    <FaUserCircle className="w-10 h-10 text-gray-800" />
+                  </div>
+                  <div className="flex px-2 items-center">
+                    <div className="text-xl">{u.name}</div>
+                  </div>
+                </li>
+              </div>
+            ))}
         </ul>
+        <div className="p-2 border-t flex items-center bg-gray-200 bottom-0">
+          <div className="flex-col p-2">
+            <div className="text-lg mr-4 text-gray-800">{user?.name}</div>
+            <div className="text-sm mr-4 text-gray-500">{user?.email}</div>
+          </div>
+          <div className="ml-auto">
+            <button
+              onClick={() => {
+                localStorage.removeItem("user");
+                router.push("/login");
+              }}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              <BiLogOut />
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Chat Area */}
       <div className="flex-1 flex flex-col bg-[#f0f2f5]">
-        <div className="p-4 border-b bg-white font-semibold text-gray-800 shadow-sm">
-          {selectedUser ? selectedUser.name : "Select a user to chat"}
+        <div className="p-4 border-b bg-white text-gray-800 shadow-sm">
+          {selectedUser ? (
+            <div className="text-xl flex ">
+              {selectedUser.name}
+              <div className="ml-auto px-2 flex gap-2">
+                <PiPhoneCall className="w-6 h-6" />
+                <BiVideoRecording className="w-6 h-6" />
+                <IoSearchCircle className="w-6 h-6" />
+              </div>
+            </div>
+          ) : (
+            "Select a user to chat"
+          )}
         </div>
 
         <div className="flex-1 p-4 overflow-y-auto bg-chat-pattern">
@@ -191,6 +253,8 @@ export default function ChatsPage() {
             </button>
           </div>
         )}
+
+        {/* User Info and Logout Section */}
       </div>
     </div>
   );
