@@ -38,7 +38,7 @@ export default function ChatsPage() {
           filter: `chat_id=eq.${chatId}`,
         },
         (payload) => {
-          setMessages((prev) => [...prev, payload.new]);
+          setMessages((prev) => [...prev, payload.new]); // This should work now
         }
       )
       .subscribe();
@@ -47,15 +47,6 @@ export default function ChatsPage() {
       supabase.removeChannel(channel);
     };
   }, [hasMounted, chatId]);
-
-  const fetchUsers = async (userId) => {
-    const { data, error } = await supabase
-      .from("users")
-      .select("id, name, email")
-      .neq("id", userId);
-
-    if (!error) setUsers(data);
-  };
 
   const fetchMessages = async (chatId) => {
     const { data } = await supabase
