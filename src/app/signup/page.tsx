@@ -24,14 +24,14 @@ export default function SignupPage() {
       return;
     }
 
-    const { error: insertError } = await supabase
+    const { error } = await supabase
       .from("users")
       .insert([
         { name: form.name, email: form.email, password: form.password },
       ]);
 
-    if (insertError) {
-      setError(insertError.message);
+    if (error) {
+      setError(error.message);
     } else {
       router.push("/login");
     }
