@@ -1,84 +1,84 @@
-"use client";
+// "use client";
 
-import { useState } from "react";
-import supabase from "@/lib/supabase";
-import { useRouter } from "next/navigation";
+// import { useState } from "react";
+// import supabase from "@/lib/supabase";
+// import { useRouter } from "next/navigation";
 
-export default function SignupPage() {
-  const router = useRouter();
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
-  const [error, setError] = useState("");
+// export default function SignupPage() {
+//   const router = useRouter();
+//   const [form, setForm] = useState({ name: "", email: "", password: "" });
+//   const [error, setError] = useState("");
 
-  const validateForm = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return (
-      form.name.length > 0 &&
-      emailRegex.test(form.email) &&
-      form.password.length >= 8
-    );
-  };
+//   const validateForm = () => {
+//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//     return (
+//       form.name.length > 0 &&
+//       emailRegex.test(form.email) &&
+//       form.password.length >= 8
+//     );
+//   };
 
-  const handleSignup = async () => {
-    if (!validateForm()) {
-      setError("Invalid input. Ensure email is valid and password ≥ 8 chars.");
-      return;
-    }
+//   const handleSignup = async () => {
+//     if (!validateForm()) {
+//       setError("Invalid input. Ensure email is valid and password ≥ 8 chars.");
+//       return;
+//     }
 
-    const { error } = await supabase
-      .from("users")
-      .insert([
-        { name: form.name, email: form.email, password: form.password },
-      ]);
+//     const { error } = await supabase
+//       .from("users")
+//       .insert([
+//         { name: form.name, email: form.email, password: form.password },
+//       ]);
 
-    if (error) {
-      setError(error.message);
-    } else {
-      router.push("/login");
-    }
-  };
+//     if (error) {
+//       setError(error.message);
+//     } else {
+//       router.push("/login");
+//     }
+//   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-black">
-          Sign Up
-        </h2>
-        <input
-          type="text"
-          placeholder="Name"
-          className="text-black w-full border p-2 mb-4 rounded"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          className="text-black w-full border p-2 mb-4 rounded"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="text-black w-full border p-2 mb-4 rounded"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        <button
-          onClick={handleSignup}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-        >
-          Sign Up
-        </button>
-        <p className="mt-4 text-center text-black">
-          Already have an account?
-          <a href="/login" className="text-blue-500 hover:underline">
-            {" "}
-            Log in
-          </a>
-        </p>
-      </div>
-    </div>
-  );
-}
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+//       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+//         <h2 className="text-2xl font-bold mb-6 text-center text-black">
+//           Sign Up
+//         </h2>
+//         <input
+//           type="text"
+//           placeholder="Name"
+//           className="text-black w-full border p-2 mb-4 rounded"
+//           value={form.name}
+//           onChange={(e) => setForm({ ...form, name: e.target.value })}
+//         />
+//         <input
+//           type="email"
+//           placeholder="Email"
+//           className="text-black w-full border p-2 mb-4 rounded"
+//           value={form.email}
+//           onChange={(e) => setForm({ ...form, email: e.target.value })}
+//         />
+//         <input
+//           type="password"
+//           placeholder="Password"
+//           className="text-black w-full border p-2 mb-4 rounded"
+//           value={form.password}
+//           onChange={(e) => setForm({ ...form, password: e.target.value })}
+//         />
+//         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+//         <button
+//           onClick={handleSignup}
+//           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+//         >
+//           Sign Up
+//         </button>
+//         <p className="mt-4 text-center text-black">
+//           Already have an account?
+//           <a href="/login" className="text-blue-500 hover:underline">
+//             {" "}
+//             Log in
+//           </a>
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
