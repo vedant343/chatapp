@@ -45,7 +45,7 @@ export default function ChatsPage() {
           filter: `chat_id=eq.${chatId}`,
         },
         (payload) => {
-          setMessages((prev) => [...prev, payload.new]); // This should work now
+          setMessages((prev) => [...prev, payload.new as Message]); // Cast payload.new to Message
         }
       )
       .subscribe();
