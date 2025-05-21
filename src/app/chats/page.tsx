@@ -18,9 +18,7 @@ export default function ChatsPage() {
   const [messageText, setMessageText] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  useEffect(() => setHasMounted(true), []);
 
   useEffect(() => {
     if (!hasMounted) return;
@@ -132,129 +130,139 @@ export default function ChatsPage() {
   if (!hasMounted) return null;
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen font-sans bg-[#f0f2f5]">
       {/* Sidebar */}
-      <div className="w-1/4 bg-white">
-        <div className="p-4">
-          <h2 className="text-2xl mb-2 text-gray-800">Chats</h2>
-          <div className="flex items-center border border-gray-300 rounded-full p-2">
-            <IoSearchCircle className="w-10 h-10" />
+      <div className="w-1/4 bg-white border-r border-gray-200">
+        <div className="p-4 border-b border-gray-200">
+          <h2 className="text-2xl font-semibold text-[#075e54] mb-4">Chats</h2>
+          <div className="flex items-center bg-gray-100 rounded-full px-3 py-2">
+            <IoSearchCircle className="w-6 h-6 text-gray-500" />
             <input
               type="text"
               placeholder="Search users..."
-              className="flex-1 ml-2 p-2 text-gray-800 focus:outline-none"
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-              }}
+              className="flex-1 ml-2 p-1 bg-transparent text-sm text-gray-800 outline-none"
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
-        <ul className="border-">
+        <ul className="overflow-y-auto p-2 space-y-2">
           {users
             .filter((u) =>
               u.name.toLowerCase().includes(searchQuery.toLowerCase())
             )
             .map((u) => (
-              <div className="gap-2" key={u.id}>
-                <li
-                  onClick={() => openChatWithUser(u.id)}
-                  className="text-gray-800 flex cursor-pointer px-2 py-3 bg-gray-50 hover:bg-green-100 rounded-lg"
-                >
-                  <div>
-                    <FaUserCircle className="w-10 h-10 text-gray-800" />
-                  </div>
-                  <div className="flex px-2 items-center">
-                    <div className="text-xl">{u.name}</div>
-                  </div>
-                </li>
-              </div>
+              <li
+                key={u.id}
+                onClick={() => openChatWithUser(u.id)}
+                className="flex items-center gap-3 p-3 cursor-pointer rounded-lg hover:bg-[#e1f3f0] transition"
+              >
+                <FaUserCircle className="w-8 h-8 text-gray-600" />
+                <div className="text-gray-900 font-medium">{u.name}</div>
+              </li>
             ))}
         </ul>
-        <div className="p-2 border-t flex items-center bg-gray-200 bottom-0">
-          <div className="flex-col p-2">
-            <div className="text-lg mr-4 text-gray-800">{user?.name}</div>
-            <div className="text-sm mr-4 text-gray-500">{user?.email}</div>
+        <div className="p-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
+          <div>
+            <div className="text-sm font-semibold text-gray-800">
+              {user?.name}
+            </div>
+            <div className="text-xs text-gray-500">{user?.email}</div>
           </div>
-          <div className="ml-auto">
-            <button
-              onClick={() => {
-                localStorage.removeItem("user");
-                router.push("/login");
-              }}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-            >
-              <BiLogOut />
-            </button>
-          </div>
+          <button
+            onClick={() => {
+              localStorage.removeItem("user");
+              router.push("/login");
+            }}
+            className="text-white bg-red-500 p-2 rounded-full hover:bg-red-600"
+          >
+            <BiLogOut className="w-5 h-5" />
+          </button>
         </div>
       </div>
 
-      {/* Chat Area */}
+      {/* Chat Section */}
       <div className="flex-1 flex flex-col bg-[#f0f2f5]">
-        <div className="p-4 border-b bg-white text-gray-800 shadow-sm">
+        {/* Chat Header */}
+        <div className="p-4 bg-[#075e54] text-white flex items-center justify-between shadow-md">
           {selectedUser ? (
-            <div className="text-xl flex ">
-              {selectedUser.name}
-              <div className="ml-auto px-2 flex gap-2">
-                <PiPhoneCall className="w-6 h-6" />
-                <BiVideoRecording className="w-6 h-6" />
-                <IoSearchCircle className="w-6 h-6" />
+            <>
+              <div className="text-lg font-medium">{selectedUser.name}</div>
+              <div className="flex items-center gap-4">
+                <PiPhoneCall className="w-5 h-5" />
+                <BiVideoRecording className="w-5 h-5" />
+                <BiSearchAlt2 className="w-5 h-5" />
               </div>
-            </div>
+            </>
           ) : (
-            "Select a user to chat"
+            <div className="text-sm text-gray-100">
+              Select a user to start chatting
+            </div>
           )}
         </div>
 
-        <div className="flex-1 p-4 overflow-y-auto bg-chat-pattern">
+        {/* Message Box */}
+        <div className="flex-1 p-4 overflow-y-auto">
           {chatId ? (
             <div className="space-y-2">
-              {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${
-                    msg.sender_id === user?.id ? "justify-end" : "justify-start"
-                  }`}
-                >
+              {messages.map((msg) => {
+                const date = new Date(msg.created_at);
+                const hours = date.getHours().toString().padStart(2, "0");
+                const minutes = date.getMinutes().toString().padStart(2, "0");
+                const timeString = `${hours}:${minutes}`;
+
+                return (
                   <div
-                    className={`px-4 py-2 max-w-[65%] rounded-xl text-sm ${
+                    key={msg.id}
+                    className={`flex ${
                       msg.sender_id === user?.id
-                        ? "bg-[#d9fdd3] text-black"
-                        : "bg-white text-gray-800 border"
+                        ? "justify-end"
+                        : "justify-start"
                     }`}
                   >
-                    {msg.content}
+                    <div
+                      className={`px-4 py-2 max-w-[70%] rounded-lg text-sm shadow ${
+                        msg.sender_id === user?.id
+                          ? "bg-[#d9fdd3] text-gray-800"
+                          : "bg-white text-gray-900 border"
+                      }`}
+                    >
+                      <div className="flex justify-between">
+                        <span>{msg.content}</span>
+                        <span className="text-xs text-gray-500 ml-2 text-right">
+                          {timeString}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
-            <div className="text-center text-gray-500 mt-20">
+            <div className="text-center text-gray-500 mt-20 text-sm">
               No chat selected
             </div>
           )}
         </div>
 
+        {/* Message Input */}
         {chatId && (
-          <div className="p-4 border-t bg-white flex items-center gap-2">
+          <div className="p-4 bg-white border-t border-gray-200 flex items-center gap-2">
             <input
               type="text"
-              className="flex-1 text-black border border-gray-300 px-3 py-2 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
-              placeholder="Type your message..."
+              className="flex-1 text-black text-sm px-4 py-2 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-[#25d366]"
+              placeholder="Type a message"
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             />
             <button
               onClick={handleSendMessage}
-              className="bg-green-500 px-4 py-2 rounded-full hover:bg-green-600"
+              className="bg-[#25d366] text-white px-4 py-2 rounded-full hover:bg-[#1ebe5d] transition"
             >
               Send
             </button>
           </div>
         )}
-
-        {/* User Info and Logout Section */}
       </div>
     </div>
   );
