@@ -24,7 +24,7 @@ export default function SignupPage() {
       return;
     }
 
-    const { data, error: insertError } = await supabase
+    const { error: insertError } = await supabase
       .from("users")
       .insert([
         { name: form.name, email: form.email, password: form.password },
