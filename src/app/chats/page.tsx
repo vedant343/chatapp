@@ -19,14 +19,7 @@ export default function ChatsPage() {
 
   useEffect(() => {
     if (!hasMounted) return;
-    const storedUser = localStorage.getItem("user");
-    if (!storedUser) {
-      router.push("/login");
-    } else {
-      const parsed = JSON.parse(storedUser);
-      setUser(parsed);
-      fetchUsers(parsed.id);
-    }
+    if (!localStorage.getItem("user")) router.push("/login");
   }, [hasMounted, router]);
 
   useEffect(() => {
