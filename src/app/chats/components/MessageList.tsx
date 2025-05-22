@@ -72,7 +72,7 @@ const MessageList = ({ messages, user, users = [] }) => {
           );
         })
       ) : (
-        <div className="text-center text-gray-500 mt-20 text-sm">
+        <div className="text-center text-gray-500 mt-20 text-sm flex-1 overflow-y-auto px-4 py-2 space-y-2">
           No chat selected
         </div>
       )}

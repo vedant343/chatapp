@@ -26,7 +26,7 @@ const Sidebar = ({
   return (
     <div className="flex h-screen">
       {/* Mini Sidebar */}
-      <div className="w-14 bg-[#f1f3f4] border-r border-gray-300 flex flex-col items-center py-4 space-y-6">
+      <div className="w-12 bg-[#f1f3f4] border-r border-gray-300 flex flex-col items-center py-4 space-y-6">
         <FaComments
           className={`w-5 h-5 cursor-pointer ${
             activeTab === "chats" ? "text-[#25d366]" : "text-gray-500"

@@ -13,16 +13,14 @@ const ChatHeader = ({ selectedUser }) => {
               <BiGroup className="w-5 h-5 text-gray-600" />
             </div>
             <div className="flex flex-col">
-              <div className="text-md font-semibold">
-                {selectedUser.name}
-              </div>
+              <div className="text-md font-semibold">{selectedUser.name}</div>
               {selectedUser.email && !selectedUser.is_group && (
-                <div className="text-sm text-gray-500">
+                <div className="text-xs text-gray-500">
                   {selectedUser.email}
                 </div>
               )}
               {selectedUser?.members && (
-                <div className="text-sm text-gray-500 truncate max-w-[300px]">
+                <div className="text-xs text-gray-500 truncate max-w-[300px]">
                   {selectedUser.members
                     .map((member) => member.users.name)
                     .join(", ")}
@@ -32,6 +30,11 @@ const ChatHeader = ({ selectedUser }) => {
           </div>
 
           <div className="flex items-center gap-4">
+            {selectedUser.is_group && selectedUser.admin && (
+              <button className="bg-green-500 text-white px-2 py-1 rounded">
+                {selectedUser.admin.name}
+              </button>
+            )}
             <GrDocument className="w-5 h-5 text-gray-600 hover:text-black cursor-pointer" />
             <BiVideoRecording className="w-5 h-5 text-gray-600 hover:text-black cursor-pointer" />
             <BiSearchAlt2 className="w-5 h-5 text-gray-600 hover:text-black cursor-pointer" />
