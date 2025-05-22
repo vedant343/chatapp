@@ -57,6 +57,9 @@ const Sidebar = ({
                     {u.unreadCount}
                   </span>
                 )}
+                <div className="text-xs text-gray-500">
+                  {u.lastMessage ? u.lastMessage.content : "No messages yet"}
+                </div>
               </li>
             ))}
           {groups
@@ -87,6 +90,9 @@ const Sidebar = ({
                     {g.unreadCount}
                   </span>
                 )}
+                <div className="text-xs text-gray-500">
+                  {g.lastMessage ? g.lastMessage.content : "No messages yet"}
+                </div>
               </li>
             ))}
         </ul>

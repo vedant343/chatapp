@@ -68,12 +68,20 @@ export default function ChatsPage() {
   }, [hasMounted, chatId]);
 
   const fetchUsers = async (userId) => {
-    const { data, error } = await supabase
-      .from("users")
-      .select("id, name, email")
-      .neq("id", userId);
+    const { data: usersData, error } = await supabase.from("users").select("*");
 
-    if (!error) setUsers(data);
+    if (error) {
+      console.error("Error fetching users:", error);
+      return [];
+    }
+
+    // Initialize lastMessage for each user
+    const usersWithMessages = usersData.map((user) => ({
+      ...user,
+      lastMessage: null, // Initialize lastMessage
+    }));
+
+    setUsers(usersWithMessages);
   };
 
   const fetchMessages = async (chatId) => {
@@ -125,11 +133,23 @@ export default function ChatsPage() {
   const handleSendMessage = async () => {
     if (!messageText.trim()) return;
 
+    // Send the message to the database
     await supabase.from("messages").insert({
       chat_id: chatId,
       sender_id: user?.id,
       content: messageText.trim(),
     });
+
+    // Update the last message in the users state
+    if (selectedUser) {
+      setUsers((prevUsers) =>
+        prevUsers.map((u) =>
+          u.id === selectedUser.id
+            ? { ...u, lastMessage: { content: messageText.trim() } }
+            : u
+        )
+      );
+    }
 
     setMessageText("");
   };
