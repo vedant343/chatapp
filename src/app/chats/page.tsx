@@ -334,7 +334,7 @@ export default function ChatsPage() {
       />
       <div className="flex-1 flex flex-col bg-[#f0f2f5] overflow-hidden">
         <ChatHeader selectedUser={selectedUser} />
-        <MessageList messages={messages} user={user} />
+        <MessageList messages={messages} user={user} users={users} />
         <MessageInput
           messageText={messageText}
           setMessageText={setMessageText}

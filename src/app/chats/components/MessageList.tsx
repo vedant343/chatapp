@@ -1,6 +1,6 @@
 "use client";
 
-const MessageList = ({ messages, user }) => {
+const MessageList = ({ messages, user, users = [] }) => {
   return (
     <div className="flex-1 overflow-y-auto px-4 py-2 space-y-2">
       {messages.length > 0 ? (
@@ -13,6 +13,10 @@ const MessageList = ({ messages, user }) => {
             .getMinutes()
             .toString()
             .padStart(2, "0")}`;
+
+          // Find the sender's name based on sender_id
+          const sender = users.find((u) => u.id === msg.sender_id);
+
           return (
             <div
               key={msg.id}
@@ -21,14 +25,22 @@ const MessageList = ({ messages, user }) => {
               }`}
             >
               <div
-                className={`px-4 py-2 max-w-[70%] rounded-lg text-sm shadow ${
+                className={`px-4 py-2 rounded-lg text-sm shadow ${
                   msg.sender_id === user?.id
                     ? "bg-[#d9fdd3] text-gray-800"
                     : "bg-white text-gray-900 border"
                 }`}
               >
                 <div className="flex justify-between">
-                  <span>{msg.content}</span>
+                  <span>
+                    {sender ? (
+                      <>
+                        <div className="text-xs text-gray-500">{sender.name}</div> <div>{msg.content}</div>{" "}
+                      </>
+                    ) : (
+                      <div>>{msg.content}</div>
+                    )}
+                  </span>
                   <span className="text-xs text-gray-500 ml-2 text-right">
                     {timeString}
                   </span>

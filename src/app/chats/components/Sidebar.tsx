@@ -52,11 +52,6 @@ const Sidebar = ({
                   </div>
                   <div className="text-gray-900 font-medium">{u.name}</div>
                 </div>
-                {u.unreadCount > 0 && (
-                  <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                    {u.unreadCount}
-                  </span>
-                )}
                 <div className="text-xs text-gray-500">
                   {u.lastMessage ? u.lastMessage.content : "No messages yet"}
                 </div>
@@ -96,6 +91,20 @@ const Sidebar = ({
               </li>
             ))}
         </ul>
+      </div>
+      <div className="p-4 border-t border-gray-200">
+        <div className="flex items-center justify-between">
+          <span className="text-gray-900 font-medium">{user?.name}</span>
+          <a href="/login">
+            {" "}
+            <button
+              className="text-red-500 hover:text-red-700"
+              onClick={() => {}}
+            >
+              Logout
+            </button>
+          </a>
+        </div>
       </div>
     </div>
   );
