@@ -1,6 +1,7 @@
 "use client";
 
 import { BiVideoRecording, BiSearchAlt2, BiGroup } from "react-icons/bi";
+import { GrDocument } from "react-icons/gr";
 
 const ChatHeader = ({ selectedUser }) => {
   return (
@@ -30,9 +31,9 @@ const ChatHeader = ({ selectedUser }) => {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            {/* <BiPhoneCall className="w-5 h-5" /> */}
-            <BiVideoRecording className="w-5 h-5" />
-            <BiSearchAlt2 className="w-5 h-5" />
+            <GrDocument className="w-6 h-6" />
+            <BiVideoRecording className="w-6 h-6" />
+            <BiSearchAlt2 className="w-6 h-6" />
           </div>
         </>
       ) : (

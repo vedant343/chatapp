@@ -67,10 +67,8 @@ const Sidebar = ({
         <div className="flex-1 overflow-y-auto px-2 space-y-1">
           <ul className="pt-2">
             {users
-              .filter(
-                (u) =>
-                  u.id !== user?.id &&
-                  u.name.toLowerCase().includes(searchQuery.toLowerCase())
+              .filter((u) =>
+                u.name.toLowerCase().includes(searchQuery.toLowerCase())
               )
               .map((u) => (
                 <li
@@ -121,6 +119,9 @@ const Sidebar = ({
                       {g.unreadCount}
                     </span>
                   )}
+                  <div className="text-xs text-gray-500">
+                    {g.lastMessage ? g.lastMessage.content : "No messages yet"}
+                  </div>
                 </li>
               ))}
           </ul>
@@ -138,7 +139,7 @@ const Sidebar = ({
         </div>
         <button
           onClick={() => setShowGroupModal(true)}
-          className="absolute bottom-20 left-[13rem] w-12 h-12 bg-[#25d366] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#1ebe5d] z-50"
+          className="absolute bottom-20 left-[15rem] w-12 h-12 bg-[#25d366] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#1ebe5d] z-50"
           title="Create Group"
         >
           <FaUsers className="w-5 h-5" />
