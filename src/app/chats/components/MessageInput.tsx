@@ -22,12 +22,11 @@ const MessageInput = ({
       {isChatSelected && (
         <>
           <div className="flex items-center gap-2 flex-1">
-            <FaPaperclip className="text-gray-600 cursor-pointer" />
-            <FaSmile className="text-gray-600 cursor-pointer" />
-            <FaClock className="text-gray-600 cursor-pointer" />
-            <FaRedo className="text-gray-600 cursor-pointer" />
-            <FaMagic className="text-gray-600 cursor-pointer" />
-            <FaMicrophone className="text-gray-600 cursor-pointer" />
+            <FaPaperclip className="text-gray-400 cursor-pointer hover:text-gray-600" />
+            <FaSmile className="text-gray-400 cursor-pointer hover:text-gray-600" />
+            <FaClock className="text-gray-400 cursor-pointer hover:text-gray-600" />
+            <FaMagic className="text-gray-400 cursor-pointer hover:text-gray-600" />
+            <FaMicrophone className="text-gray-400 cursor-pointer hover:text-gray-600" />
 
             <input
               type="text"

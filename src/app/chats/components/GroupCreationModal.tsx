@@ -12,7 +12,7 @@ const GroupCreationModal = ({
 }) => {
   return (
     showGroupModal && (
-      <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+      <div className="fixed inset-0 backdrop-blur-md flex items-center justify-center z-50">
         <div className="bg-[#ffffff] p-6 rounded-xl w-96 shadow-lg">
           <h2 className="text-lg font-semibold mb-4 text-[#075e54]">
             Create Group

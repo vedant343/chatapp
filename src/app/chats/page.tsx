@@ -7,6 +7,8 @@ import MessageList from "./components/MessageList";
 import MessageInput from "./components/MessageInput";
 import GroupCreationModal from "./components/GroupCreationModal";
 import ChatHeader from "./components/ChatHeader";
+import { FaComments, FaUsers, FaClock, FaFilter } from "react-icons/fa";
+import { BiUser } from "react-icons/bi";
 
 export default function ChatsPage() {
   const router = useRouter();
@@ -332,16 +334,26 @@ export default function ChatsPage() {
         setShowGroupModal={setShowGroupModal}
         user={user}
       />
-      <div className="flex-1 flex flex-col bg-[#f0f2f5] overflow-hidden">
-        <ChatHeader selectedUser={selectedUser} />
-        <MessageList messages={messages} user={user} users={users} />
-        <MessageInput
-          messageText={messageText}
-          setMessageText={setMessageText}
-          handleSendMessage={handleSendMessage}
-          isChatSelected={isChatSelected}
-        />
+      <div className="flex">
+        <div className="flex-1 flex w-4xl flex-col bg-[#f0f2f5] overflow-hidden">
+          <ChatHeader selectedUser={selectedUser} />
+          <MessageList messages={messages} user={user} users={users} />
+          <MessageInput
+            messageText={messageText}
+            setMessageText={setMessageText}
+            handleSendMessage={handleSendMessage}
+            isChatSelected={isChatSelected}
+          />
+        </div>
+        <div className="w-14 bg-[#f1f3f4] border-l border-gray-400 flex flex-col items-center space-y-5">
+          <FaComments className="w-5 h-5 cursor-pointer" />
+          <BiUser className="w-5 h-5 cursor-pointer text-gray-500" />
+          <FaUsers className="w-5 h-5 cursor-pointer text-gray-500" />
+          <FaClock className="w-5 h-5 text-gray-500 cursor-pointer" />
+          <FaFilter className="w-5 h-5 text-gray-500 cursor-pointer" />
+        </div>
       </div>
+
       <GroupCreationModal
         showGroupModal={showGroupModal}
         setShowGroupModal={setShowGroupModal}
