@@ -81,9 +81,9 @@ export default function ChatsPage() {
   };
 
   const fetchMessages = async (chatId) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("messages")
-      .select("*, sender:sender_id(name)")
+      .select("*")
       .eq("chat_id", chatId)
       .order("created_at", { ascending: true });
 
@@ -457,12 +457,7 @@ export default function ChatsPage() {
                     }`}
                   >
                     <div className="flex justify-between">
-                      <span>
-                        {msg.sender_id !== user?.id && (
-                          <strong>{msg.sender.name}: </strong>
-                        )}
-                        {msg.content}
-                      </span>
+                      <span>{msg.content}</span>
                       <span className="text-xs text-gray-500 ml-2 text-right">
                         {timeString}
                       </span>
