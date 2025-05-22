@@ -83,7 +83,7 @@ const Sidebar = ({
                       <BiUser className="text-gray-600" />
                     </div>
                     <div>
-                      <div className="text-gray-900 font-medium">{u.name}</div>
+                      <div className="text-gray-900 font-semibold">{u.name}</div>
                       <div className="text-xs text-gray-500">
                         {u.lastMessage
                           ? u.lastMessage.content
