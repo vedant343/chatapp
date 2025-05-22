@@ -354,12 +354,12 @@ export default function ChatsPage() {
           </div>
         )}
       </div>
-      <div className="w-12 bg-[#f1f3f4] border-l border-gray-400 flex flex-col items-center space-y-5">
-        <FaComments className="w-5 h-5 cursor-pointer" />
-        <BiUser className="w-5 h-5 cursor-pointer text-gray-500" />
-        <FaUsers className="w-5 h-5 cursor-pointer text-gray-500" />
-        <FaClock className="w-5 h-5 text-gray-500 cursor-pointer" />
-        <FaFilter className="w-5 h-5 text-gray-500 cursor-pointer" />
+      <div className="w-12 bg-[#f1f3f4] border-l border-gray-400 py-3 flex flex-col items-center space-y-5">
+        <FaComments className="w-5 h-5 cursor-pointer text-gray-800" />
+        <BiUser className="w-5 h-5 cursor-pointer text-gray-800" />
+        <FaUsers className="w-5 h-5 cursor-pointer text-gray-800" />
+        <FaClock className="w-5 h-5 text-gray-800 cursor-pointer" />
+        <FaFilter className="w-5 h-5 text-gray-800 cursor-pointer" />
       </div>
 
       <GroupCreationModal
