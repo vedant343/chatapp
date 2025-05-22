@@ -176,12 +176,25 @@ export default function ChatsPage() {
       group_id: group.id,
       user_id,
     }));
+
+    // NEW: Include the admin as a member of the group
+    groupMemberRows.push({
+      group_id: group.id,
+      user_id: user?.id, // Add the admin user
+    });
+
     await supabase.from("group_members").insert(groupMemberRows);
 
     const chatParticipantRows = selectedUsers.map((user_id) => ({
       chat_id: chat.id,
       user_id,
     }));
+    // NEW: Include the admin as a participant in the chat
+    chatParticipantRows.push({
+      chat_id: chat.id,
+      user_id: user?.id, // Add the admin user
+    });
+
     await supabase.from("chat_participants").insert(chatParticipantRows);
 
     console.log("✅ Group created successfully");
