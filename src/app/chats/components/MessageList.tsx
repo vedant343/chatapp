@@ -42,7 +42,6 @@ const MessageList: React.FC<MessageListProps> = ({
             .toString()
             .padStart(2, "0")}`;
 
-          // Check if the date has changed
           const displayDate = `${String(date.getDate()).padStart(
             2,
             "0"
@@ -53,13 +52,19 @@ const MessageList: React.FC<MessageListProps> = ({
           const showDate = lastDisplayedDate !== displayDate;
           lastDisplayedDate = displayDate;
 
+          // Determine styles based on environment
+          const dateStyle =
+            process.env.NODE_ENV === "production"
+              ? "text-center text-gray-700 text-sm my-2 mx-100 bg-blue-100 p-2 rounded border border-gray-300 shadow-sm"
+              : "text-center text-gray-500 text-sm my-2 mx-100 bg-gray-200 p-2 rounded border border-gray-300 shadow-sm";
+
           // Find the sender's name based on sender_id
           const sender = users.find((u) => u.id === msg.sender_id);
 
           return (
             <div key={msg.id}>
               {showDate && (
-                <div className="text-center text-gray-700 text-sm my-2 mx-100 bg-blue-100 p-2 rounded border border-gray-300 shadow-sm">
+                <div className={dateStyle}>
                   <strong>{displayDate}</strong>
                 </div>
               )}
