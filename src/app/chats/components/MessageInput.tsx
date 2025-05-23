@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import {
   FaPaperclip,
   FaSmile,
   FaClock,
-  FaRedo,
   FaMagic,
   FaMicrophone,
   FaPaperPlane,

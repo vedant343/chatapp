@@ -8,7 +8,6 @@ import {
   FaFilter,
   FaSearch,
 } from "react-icons/fa";
-import { IoSearchCircle } from "react-icons/io5";
 import { useState } from "react";
 
 const Sidebar = ({
