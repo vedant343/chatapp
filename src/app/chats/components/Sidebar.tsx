@@ -87,9 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                       <BiUser className="text-gray-600" />
                     </div>
                     <div>
-                      <div className="text-gray-900 font-semibold">
-                        {u.name}
-                      </div>
+                      <div className="text-gray-900">{u.name}</div>
                       <div className="text-xs text-gray-500">
                         {u.lastMessage
                           ? u.lastMessage.content
@@ -118,9 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                       <FaUsers className="text-gray-600" />
                     </div>
                     <div>
-                      <div className="text-gray-900 font-semibold">
-                        {g.name}
-                      </div>
+                      <div className="text-gray-900 ">{g.name}</div>
                       <div className="text-xs text-gray-500 truncate">
                         {g.members.map((m) => m.name).join(", ")}
                       </div>
