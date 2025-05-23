@@ -1,8 +1,30 @@
 "use client";
 import bgi from "../../../../public/bgii.jpg";
 
-const MessageList = ({ messages, user, users = [] }) => {
-  let lastDisplayedDate = null;
+interface Message {
+  id: string;
+  created_at: string;
+  sender_id: string;
+  content: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+}
+
+interface MessageListProps {
+  messages: Message[];
+  user: User | null;
+  users?: User[];
+}
+
+const MessageList: React.FC<MessageListProps> = ({
+  messages,
+  user,
+  users = [],
+}) => {
+  let lastDisplayedDate: string | null = null;
 
   return (
     <div

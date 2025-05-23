@@ -10,13 +10,25 @@ import ChatHeader from "./components/ChatHeader";
 import { FaComments, FaUsers, FaClock, FaFilter } from "react-icons/fa";
 import { BiUser } from "react-icons/bi";
 
+interface User {
+  id: string;
+  name: string;
+  lastMessage?: { content: string };
+}
+
+interface Chat {
+  id: string;
+  name: string;
+  members: User[];
+}
+
 export default function ChatsPage() {
   const router = useRouter();
   const [hasMounted, setHasMounted] = useState(false);
-  const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [chatId, setChatId] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [chatId, setChatId] = useState<string | null>(null);
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,10 +36,8 @@ export default function ChatsPage() {
   // NEW: States for Group Creation
   const [showGroupModal, setShowGroupModal] = useState(false);
   const [groupName, setGroupName] = useState("");
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [groups, setGroups] = useState<
-    { id: string; name: string; members: { id: string; name: string }[] }[]
-  >([]);
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [groups, setGroups] = useState<Chat[]>([]);
 
   useEffect(() => setHasMounted(true), []);
 

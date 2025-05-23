@@ -9,7 +9,14 @@ import {
   FaPaperPlane,
 } from "react-icons/fa";
 
-const MessageInput = ({
+interface MessageInputProps {
+  messageText: string;
+  setMessageText: (text: string) => void;
+  handleSendMessage: () => void;
+  isChatSelected: boolean;
+}
+
+const MessageInput: React.FC<MessageInputProps> = ({
   messageText,
   setMessageText,
   handleSendMessage,
