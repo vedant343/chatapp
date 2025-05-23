@@ -1,6 +1,17 @@
 "use client";
 
-const GroupCreationModal = ({
+interface GroupCreationModalProps {
+  showGroupModal: boolean;
+  setShowGroupModal: (show: boolean) => void;
+  groupName: string;
+  setGroupName: (name: string) => void;
+  users: { id: string; name: string }[];
+  selectedUsers: string[];
+  setSelectedUsers: (users: string[]) => void;
+  handleCreateGroup: () => void;
+}
+
+const GroupCreationModal: React.FC<GroupCreationModalProps> = ({
   showGroupModal,
   setShowGroupModal,
   groupName,
