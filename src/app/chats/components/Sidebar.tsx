@@ -126,11 +126,11 @@ const Sidebar: React.FC<SidebarProps> = ({
                       </div>
                     </div>
                   </div>
-                  {g.unreadCount > 0 && (
+                  {/* {g.unreadCount > 0 && (
                     <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
                       {g.unreadCount}
                     </span>
-                  )}
+                  )} */}
                 </li>
               ))}
           </ul>
@@ -146,13 +146,18 @@ const Sidebar: React.FC<SidebarProps> = ({
             </a>
           </div>
         </div>
-        <button
-          onClick={() => setShowGroupModal(true)}
-          className="absolute bottom-20 left-[16rem] w-12 h-12 bg-[#25d366] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#1ebe5d] z-50"
-          title="Create Group"
-        >
-          <FaUsers className="w-5 h-5" />
-        </button>
+        <div className="relative">
+          <span className="absolute bottom-14 left-[-2rem] bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            Create Group
+          </span>
+          <button
+            onClick={() => setShowGroupModal(true)}
+            className="absolute bottom-20 left-[16rem] w-12 h-12 bg-[#25d366] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#1ebe5d] z-50 group"
+            title="Create Group"
+          >
+            <FaUsers className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   );
