@@ -76,7 +76,7 @@ export default function ChatsPage() {
           filter: `chat_id=eq.${chatId}`,
         },
         (payload) => {
-          setMessages((prev) => [...prev, payload.new]);
+          setMessages((prev) => [...prev, payload.new as Message]);
         }
       )
       .subscribe();
@@ -86,7 +86,7 @@ export default function ChatsPage() {
     };
   }, [hasMounted, chatId]);
 
-  const fetchUsers = async (userId) => {
+  const fetchUsers = async (userId: string) => {
     const { data: usersData, error } = await supabase.from("users").select("*");
 
     if (error) {
@@ -103,7 +103,7 @@ export default function ChatsPage() {
     setUsers(usersWithMessages);
   };
 
-  const fetchMessages = async (chatId) => {
+  const fetchMessages = async (chatId: string) => {
     const { data } = await supabase
       .from("messages")
       .select("*")
@@ -113,7 +113,7 @@ export default function ChatsPage() {
     if (data) setMessages(data);
   };
 
-  const openChatWithUser = async (otherUserId) => {
+  const openChatWithUser = async (otherUserId: string) => {
     const { data: myChats } = await supabase
       .from("chat_participants")
       .select("chat_id")
@@ -129,7 +129,7 @@ export default function ChatsPage() {
 
     if (shared && shared.length > 0) {
       setChatId(shared[0].chat_id);
-      setSelectedUser(users.find((u) => u.id === otherUserId));
+      setSelectedUser(users.find((u) => u.id === otherUserId) || null);
       return;
     }
 
@@ -145,7 +145,7 @@ export default function ChatsPage() {
     ]);
 
     setChatId(newChat.id);
-    setSelectedUser(users.find((u) => u.id === otherUserId));
+    setSelectedUser(users.find((u) => u.id === otherUserId) || null);
     setMessages([]);
   };
 
@@ -215,7 +215,7 @@ export default function ChatsPage() {
     // NEW: Include the admin as a member of the group
     groupMemberRows.push({
       group_id: group.id,
-      user_id: user?.id, // Add the admin user
+      user_id: user?.id || "", // Provide a fallback value (e.g., an empty string)
     });
 
     await supabase.from("group_members").insert(groupMemberRows);
@@ -227,7 +227,7 @@ export default function ChatsPage() {
     // NEW: Include the admin as a participant in the chat
     chatParticipantRows.push({
       chat_id: chat.id,
-      user_id: user?.id, // Add the admin user
+      user_id: user?.id || "", // Provide a fallback value (e.g., an empty string)
     });
 
     await supabase.from("chat_participants").insert(chatParticipantRows);
@@ -299,7 +299,7 @@ export default function ChatsPage() {
     const formattedGroups = groupsWithMembers.map((g) => ({
       id: g.id,
       name: g.name,
-      members: g.group_members.map((m) => m.users),
+      members: g.group_members.map((m) => m.users).flat(),
     }));
 
     setGroups(formattedGroups);
@@ -309,7 +309,7 @@ export default function ChatsPage() {
     fetchGroupsWithMembers();
   }, []);
 
-  const openGroupChat = async (groupId) => {
+  const openGroupChat = async (groupId: string) => {
     const { data: chat, error: chatError } = await supabase
       .from("chats")
       .select("id, name, is_group_chat, group_id")
@@ -328,7 +328,7 @@ export default function ChatsPage() {
 
     if (chat) {
       setChatId(chat.id);
-      setSelectedUser({ name: chat.name, members });
+      setSelectedUser({ id: chat.id, name: chat.name });
       setMessages([]);
     } else {
       console.error("Group chat not found");
