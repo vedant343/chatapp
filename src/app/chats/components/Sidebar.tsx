@@ -152,7 +152,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </span>
           <button
             onClick={() => setShowGroupModal(true)}
-            className="absolute bottom-20 left-[16rem] w-12 h-12 bg-[#25d366] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#1ebe5d] z-50 group"
+            className="absolute bottom-20 left-[13rem] w-12 h-12 bg-[#25d366] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#1ebe5d] z-50 group"
             title="Create Group"
           >
             <FaUsers className="w-5 h-5" />
