@@ -3,7 +3,20 @@
 import { BiVideoRecording, BiSearchAlt2, BiGroup } from "react-icons/bi";
 import { GrDocument } from "react-icons/gr";
 
-const ChatHeader = ({ selectedUser }) => {
+interface User {
+  id: string;
+  name: string;
+  email?: string;
+  is_group?: boolean;
+  admin?: { name: string };
+  members?: { users: { name: string } }[];
+}
+
+interface ChatHeaderProps {
+  selectedUser: User | null;
+}
+
+const ChatHeader: React.FC<ChatHeaderProps> = ({ selectedUser }) => {
   return (
     <div className="px-4 py-3 bg-white text-black flex items-center justify-between shadow-sm border-b">
       {selectedUser ? (

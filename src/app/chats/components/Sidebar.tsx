@@ -10,7 +10,30 @@ import {
 } from "react-icons/fa";
 import { useState } from "react";
 
-const Sidebar = ({
+interface User {
+  id: string;
+  name: string;
+  lastMessage?: { content: string };
+}
+
+interface Group {
+  id: string;
+  name: string;
+  members: { id: string; name: string }[];
+}
+
+interface SidebarProps {
+  users: User[];
+  groups: Group[];
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  openChatWithUser: (userId: string) => void;
+  openGroupChat: (groupId: string) => void;
+  setShowGroupModal: (show: boolean) => void;
+  user: User | null;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
   users,
   groups,
   searchQuery,
@@ -21,12 +44,12 @@ const Sidebar = ({
   user,
 }) => {
   const [activeTab, setActiveTab] = useState("chats");
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Mini Sidebar */}
-      <div className="w-12 bg-[#f1f3f4] border-r border-gray-400 flex flex-col items-center py-4 space-y-6  ">
+      <div className="w-12 bg-[#f1f3f4] border-r border-gray-400 flex flex-col items-center py-4 space-y-6">
         <FaComments className="w-5 h-5 cursor-pointer text-gray-800" />
         <BiUser className="w-5 h-5 cursor-pointer text-gray-800" />
         <FaUsers className="w-5 h-5 cursor-pointer text-gray-800" />
