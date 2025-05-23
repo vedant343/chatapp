@@ -59,8 +59,8 @@ const MessageList: React.FC<MessageListProps> = ({
           return (
             <div key={msg.id}>
               {showDate && (
-                <div className="text-center text-gray-700 text-sm my-2 mx-100 bg-blue-100 p-1 rounded border border-gray-300 shadow-sm">
-                  {displayDate}
+                <div className="text-center text-gray-700 text-sm my-2 mx-100 bg-blue-100 p-2 rounded border border-gray-300 shadow-sm">
+                  <strong>{displayDate}</strong>
                 </div>
               )}
               <div

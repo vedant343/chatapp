@@ -54,13 +54,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* Main Sidebar */}
       <div className="flex-1 bg-white border-r border-gray-400 flex flex-col">
         <div className="p-4 border-b border-gray-400 bg-gray-100">
-          <h2 className="text-2xl font-semibold text-[#075e54] mb-4">Chats</h2>
-          <div className="flex items-center bg-gray-200 rounded-full px-3 py-2">
+          <h2 className="text-xl font-semibold text-[#075e54] mb-2">ChatAPP</h2>
+          <div className="flex items-center bg-white rounded-full border border-gray-300 px-2 py-2">
             <BiSearch className="w-6 h-6 text-gray-500" />
             <input
               type="text"
               placeholder="Search users or groups..."
-              className="flex-1 ml-2 p-1 bg-transparent text-sm text-gray-800 outline-none"
+              className="flex-1 ml-2 p-1 bg-white text-sm text-gray-800 outline-none"
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
@@ -78,7 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <li
                   key={u.id}
                   onClick={() => openChatWithUser(u.id)}
-                  className={`flex items-center justify-between gap-3 p-3 border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition ${
+                  className={`flex items-center justify-between gap-3 p-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition ${
                     selectedUser?.id === u.id ? "bg-gray-300" : ""
                   }`}
                 >
@@ -87,7 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                       <BiUser className="text-gray-600" />
                     </div>
                     <div>
-                      <div className="text-gray-900">{u.name}</div>
+                      <div className="text-gray-900 text-xs">{u.name}</div>
                       <div className="text-xs text-gray-500">
                         {u.lastMessage
                           ? u.lastMessage.content
@@ -107,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <li
                   key={g.id}
                   onClick={() => openGroupChat(g.id)}
-                  className={`flex items-center justify-between gap-3 p-3 border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition ${
+                  className={`flex items-center justify-between gap-3 p-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition ${
                     selectedUser?.id === g.id ? "bg-gray-300" : ""
                   }`}
                 >
@@ -116,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                       <FaUsers className="text-gray-600" />
                     </div>
                     <div>
-                      <div className="text-gray-900 ">{g.name}</div>
+                      <div className="text-gray-900 text-xs">{g.name}</div>
                       <div className="text-xs text-gray-500 truncate">
                         {g.members.map((m) => m.name).join(", ")}
                       </div>
