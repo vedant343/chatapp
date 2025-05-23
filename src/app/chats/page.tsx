@@ -22,6 +22,13 @@ interface Chat {
   members: User[];
 }
 
+interface Message {
+  id: string;
+  created_at: string;
+  sender_id: string;
+  content: string;
+}
+
 export default function ChatsPage() {
   const router = useRouter();
   const [hasMounted, setHasMounted] = useState(false);
@@ -29,7 +36,7 @@ export default function ChatsPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [chatId, setChatId] = useState<string | null>(null);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [messageText, setMessageText] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
