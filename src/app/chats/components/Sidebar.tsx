@@ -1,13 +1,7 @@
 "use client";
 
-import { BiUser, BiGroup, BiSearch } from "react-icons/bi";
-import {
-  FaUsers,
-  FaComments,
-  FaClock,
-  FaFilter,
-  FaSearch,
-} from "react-icons/fa";
+import { BiUser, BiSearch } from "react-icons/bi";
+import { FaUsers, FaComments, FaClock, FaFilter } from "react-icons/fa";
 import { useState } from "react";
 
 interface User {
