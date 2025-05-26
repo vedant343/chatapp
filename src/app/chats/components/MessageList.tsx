@@ -42,13 +42,7 @@ const MessageList: React.FC<MessageListProps> = ({
             .toString()
             .padStart(2, "0")}`;
 
-          const displayDate = `${String(date.getDate()).padStart(
-            2,
-            "0"
-          )}-${String(date.getMonth() + 1).padStart(
-            2,
-            "0"
-          )}-${date.getFullYear()}`;
+          const displayDate = `${String(date.getDate()).padStart(2,"0")}-${String(date.getMonth() + 1).padStart(2,"0")}-${date.getFullYear()}`;
           const showDate = lastDisplayedDate !== displayDate;
           lastDisplayedDate = displayDate;
 
